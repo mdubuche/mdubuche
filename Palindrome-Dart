@@ -1,0 +1,47 @@
+// refer to the Java code here:
+// https://gist.github.com/rjlutz/3c26a1be877529de8dd28049d12415d0
+// complete the dart implementation below to have the same functionality
+
+class Palindrome {
+  static check(String str) {
+    return _isPalindrome(str, 0, str.length - 1);
+  }
+
+  static _isPalindrome(String str, int toStart, int toEnd) {
+    str = str.toLowerCase();
+
+    if (RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%\s-]').hasMatch(str)) {
+      str = str.replaceAll(new RegExp(r'[!@#<>?",:_`~;[\]\\|=+)(*&^%\s-]'), "");
+      toEnd = str.length - 1;
+    }
+
+    if (toStart >= toEnd) return true;
+
+    String downcaseStart = str[toStart];
+    String downcaseEnd = str[toEnd];
+
+    if (downcaseStart != downcaseEnd) return false;
+
+    return _isPalindrome(str, (toStart) + 1, (toEnd) - 1);
+  }
+}
+
+// lambda to mimic Java's Character.isLetterOrDigit()
+
+bool isLetterOrDigit(String s, int idx) =>
+    s[idx].contains(RegExp(r'[\da-zA-Z]'));
+
+void main() {
+  print(Palindrome.check('radar'));
+  print(Palindrome.check('raxdar'));
+
+  print(Palindrome.check('noon'));
+  print(Palindrome.check('nxoon'));
+
+  print(Palindrome.check('Rise to vote, sir!'));
+  print(Palindrome.check('Rise to xyz vote, sir!'));
+
+  //should result in true,false,true,false,true,false
+}
+
+Help given by Jamel Rowland, lines 12-16 
